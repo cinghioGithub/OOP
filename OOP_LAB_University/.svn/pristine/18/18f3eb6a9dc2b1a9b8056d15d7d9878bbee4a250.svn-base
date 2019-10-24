@@ -1,0 +1,55 @@
+package university;
+
+/**
+ * This class represents a student.
+ * 
+ * @author enrico
+ *
+ */
+
+public class Studente {
+	
+	final static int MaxCourses = 25;
+	
+	private int Matricola;
+	private String Nome, Cognome;
+	private Corso[] Courses= new Corso[MaxCourses];
+	
+	/**
+	 * Constructor
+	 * @param first Student's name
+	 * @param last Student's surname
+	 * @param mat Student's code
+	 */
+	public Studente(String first, String last, int mat) {
+		this.Nome = first;
+		this.Cognome = last;
+		this.Matricola = mat;
+	}
+	
+	/**
+	 * 
+	 * @return Matricola
+	 */
+	public int getMatricola() {
+		return this.Matricola;
+	}
+	
+	/**
+	 * 
+	 * @return Nome
+	 */
+	public String getNome() {
+		return this.Nome;
+	}
+	
+	/**
+	 * 
+	 * @return Cognome
+	 */
+	public String getCognome() {
+		return this.Cognome;
+	}
+
+
+}

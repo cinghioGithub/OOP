@@ -1,0 +1,10 @@
+P; nome1; cognome1; ssn1
+P; nome2; cognome2; ssn2
+M; 007; nome7; cognome7; ssn7; specialita1
+P; nome6; cognome6; ssn6
+P; nome4; cognome4; ssn4
+M; 001; nome1; cognome1; ssn1; specialita2
+M; 003; nome3; cognome3; ssn3; specialita1
+M; 002; nome2; cognome2; ssn2; specialita2
+M; 002; nome2; cognome2; specialita2
+Z; nome1; cognome1; ssn7

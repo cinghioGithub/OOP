@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Domande di Teoria / Theory questions</title>
+	<link href=".css.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+<p style="padding:2em;border:1pt purple solid;border-radius:0.5em;text-align:center;">
+<a href="https://softeng.polito.it/survey/index.php/599586?token=student197NUMC&lang=it&newtest=Y"
+style="font-size:200%;">Domande di Teoria</a> / 
+<a href="https://softeng.polito.it/survey/index.php/599586?token=student197NUMC&lang=en&newtest=Y"
+style="font-size:200%;">Theory questions</a>
+</p>
+</body>
+</html>

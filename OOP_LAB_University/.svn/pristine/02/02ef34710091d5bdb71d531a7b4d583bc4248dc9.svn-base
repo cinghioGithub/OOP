@@ -1,0 +1,19 @@
+package university;
+
+public class MainClass {
+
+	public static void main(String[] args) {
+		
+		University Ateneo = new University("Politecnico di Torino");
+		
+		Ateneo.setRector("Marco", "Gilli");
+		Ateneo.enroll("Enrico", "Bravi");
+		
+		System.out.println(Ateneo.getName());
+		System.out.println(Ateneo.getRector());
+		System.out.println(Ateneo.student(10000));
+		
+
+	}
+
+}

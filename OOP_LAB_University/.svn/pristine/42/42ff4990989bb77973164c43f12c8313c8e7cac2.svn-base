@@ -1,0 +1,54 @@
+package university;
+
+/**
+ * This class represents a course.
+ * 
+ * @author enrico
+ *
+ */
+
+public class Corso {
+	
+	final static int MaxStudents = 100;
+	
+	private String Title;
+	private String Teacher;
+	private int Code;
+	private Studente[] Students = new Studente[MaxStudents];
+	
+	/**
+	 * Constructor
+	 * @param title Course's name
+	 * @param teacher Course's teacher
+	 * @param cod Course's code
+	 */
+	public Corso (String title, String teacher, int cod) {
+		this.Title = title;
+		this.Teacher= teacher;
+		this.Code = cod;
+	}
+
+	/**
+	 * 
+	 * @return Titole
+	 */
+	public String getTitle() {
+		return this.Title;
+	}
+	
+	/**
+	 * 
+	 * @return Teacher
+	 */
+	public String getTeacher() {
+		return this.Teacher;
+	}
+	
+	/**
+	 * 
+	 * @return Code
+	 */
+	public int getCode() {
+		return this.Code;
+	}
+}

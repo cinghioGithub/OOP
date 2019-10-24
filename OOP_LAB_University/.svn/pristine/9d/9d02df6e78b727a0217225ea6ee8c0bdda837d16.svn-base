@@ -1,0 +1,27 @@
+package university;
+
+public class Studente {
+	
+	private int Matricola;
+	private String Nome, Cognome;
+	
+	public Studente(String first, String last, int mat) {
+		this.Nome = first;
+		this.Cognome = last;
+		this.Matricola = mat;
+	}
+	
+	public int getMatricola() {
+		return this.Matricola;
+	}
+	
+	public String getNome() {
+		return this.Nome;
+	}
+	
+	public String getCognome() {
+		return this.Cognome;
+	}
+
+
+}

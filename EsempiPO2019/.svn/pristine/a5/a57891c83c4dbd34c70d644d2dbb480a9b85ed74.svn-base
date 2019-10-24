@@ -1,0 +1,33 @@
+package polibook;
+
+public class Messaggio {
+	
+	// Attributi
+	private String testo;
+	private int timestamp;
+	
+	// Associazioni
+	private Utente autore;  // molteplicita' massima = 1
+	
+	public Messaggio(String testo, int ts, Utente autore) {
+		this.testo = testo;
+		this.timestamp = ts;
+		this.autore = autore;
+		// il fatto che per costruire un messaggio si debba
+		// fornire anche l'autore, garantisce la molteplicità
+		// minima = 1
+	}
+	
+	public String getTesto() {
+		return this.testo;
+	}
+
+	public int getTimestamp() {
+		return this.timestamp;
+	}
+
+	public String versioneStringa() {
+		return this.testo + "\n[" + this.timestamp + "]";
+	}
+
+}

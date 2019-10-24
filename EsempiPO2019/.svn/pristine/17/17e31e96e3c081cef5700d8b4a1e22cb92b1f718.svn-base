@@ -1,0 +1,24 @@
+package polibook.app;
+
+import polibook.Utente;
+
+public class AppPoliBook {
+
+	public static void main(String[] args) {
+		
+		Utente mark = new Utente("mark","Zucc","Mark",
+				"mark@polito.it");
+		
+		Utente jane = new Utente("jane","Doe","Jane","jane@polito.it");
+		
+		mark.nuovoAmico(jane);
+		//jane.nuovoAmico(mark);
+		
+		String s="hello2";
+		
+		
+		
+
+	}
+
+}

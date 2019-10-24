@@ -1,0 +1,163 @@
+package university;
+
+/**
+ * This class represents a university education system.
+ * 
+ * It manages students and courses.
+ *
+ */
+public class University {
+	
+	final static int MaxStudents = 1000;
+	final static int StartMatricola = 10000;
+	final static int StartCorsi = 10;
+	final static int MaxCorsi = 50;
+	
+	private String Name;
+	private String RectorName, RectorSurname;
+	private Studente[] Studenti = new Studente[MaxStudents];
+	private Corso[] Corsi = new Corso[MaxCorsi];
+	private int IndexStudenti = 0, Matricola = StartMatricola;
+	private int IndexCorsi = 0, Codice = StartCorsi;
+
+	/**
+	 * Constructor
+	 * @param name name of the university
+	 */
+	public University(String name){
+		//TODO: to be implemented
+		this.Name = name;
+	}
+	
+	/**
+	 * Getter for the name of the university
+	 * @return name of university
+	 */
+	public String getName(){
+		//TODO: to be implemented
+		return this.Name;
+	}
+	
+	/**
+	 * Defines the rector for the university
+	 * 
+	 * @param first
+	 * @param last
+	 */
+	public void setRector(String first, String last){
+		//TODO: to be implemented
+		this.RectorName = first;
+		this.RectorSurname = last;
+	}
+	
+	/**
+	 * Retrieves the rector of the university
+	 * 
+	 * @return
+	 */
+	public String getRector(){
+		//TODO: to be implemented
+		return this.RectorName + " " + this.RectorSurname;
+	}
+	
+	/**
+	 * Enroll a student in the university
+	 * 
+	 * @param first first name of the student
+	 * @param last last name of the student
+	 * @return
+	 */
+	public int enroll(String first, String last){
+		//TODO: to be implemented
+		if(this.IndexStudenti <= MaxStudents) {
+			this.Studenti[this.IndexStudenti] = new Studente(first, last, this.Matricola);
+			this.IndexStudenti++;
+			this.Matricola++;
+			return Studenti[this.IndexStudenti-1].getMatricola();
+		}
+		else {
+			return -1;
+		}
+	}
+	
+	/**
+	 * Retrieves the information for a given student
+	 * 
+	 * @param id the id of the student
+	 * @return information about the student
+	 */
+	public String student(int id){
+		//TODO: to be implemented
+		for(int i=0; i<this.IndexStudenti; i++) {
+			if(id == this.Studenti[i].getMatricola())
+				return this.Studenti[i].getMatricola() + " " + this.Studenti[i].getNome() + " " + this.Studenti[i].getCognome();
+		}
+		return null;
+	}
+	
+	/**
+	 * Activates a new course with the given teacher
+	 * 
+	 * @param title title of the course
+	 * @param teacher name of the teacher
+	 * @return the unique code assigned to the course
+	 */
+	public int activate(String title, String teacher){
+		//TODO: to be implemented
+		if(this.IndexCorsi <= MaxCorsi) {
+			this.Corsi[this.IndexCorsi] = new Corso(title, teacher, this.Codice);
+			this.IndexCorsi++;
+			this.Codice++;
+			return this.Corsi[this.IndexCorsi-1].getCode();
+		}
+		return -1;
+	}
+	
+	/**
+	 * Retrieve the information for a given course
+	 * 
+	 * @param code unique code of the course
+	 * @return information about the course
+	 */
+	public String course(int code){
+		//TODO: to be implemented
+		for(int i=0; i<MaxCorsi; i++) {
+			if(code == this.Corsi[i].getCode()) {
+				return this.Corsi[i].getCode() + ", " + Corsi[i].getTitle() + ", " + Corsi[i].getTeacher();
+			}
+		}
+		return null;
+	}
+	
+	/**
+	 * Register a student to attend a course
+	 * @param studentID id of the student
+	 * @param courseCode id of the course
+	 */
+	public void register(int studentID, int courseCode){
+		
+		//TODO: to be implemented
+	}
+	
+	/**
+	 * Retrieve a list of attendees
+	 * 
+	 * @param courseCode unique id of the course
+	 * @return list of attendees separated by "\n"
+	 */
+	public String listAttendees(int courseCode){
+		//TODO: to be implemented
+		return null;
+	}
+
+	/**
+	 * Retrieves the study plan for a student
+	 * 
+	 * @param studentID id of the student
+	 * @return list of courses the student is registered for
+	 */
+	public String studyPlan(int studentID){
+		//TODO: to be implemented
+		return null;
+	}
+}

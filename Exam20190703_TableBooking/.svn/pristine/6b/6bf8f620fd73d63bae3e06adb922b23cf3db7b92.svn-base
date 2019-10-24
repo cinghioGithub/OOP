@@ -1,0 +1,64 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta name="generator" content="pandoc" />
+  <title>Table Reservations</title>
+  <style type="text/css">code{white-space: pre;}</style>
+  <link rel="stylesheet" href=".css.css" type="text/css" />
+</head>
+<body>
+<div id="header">
+<h1 class="title">Table Reservations</h1>
+</div>
+<!--
+> To generate html and pdf use
+> ```bash
+> $ pandoc -s -f markdown+Smart requirements.md -c .css.css -o requirements.html
+> $ pandoc -s -f markdown+Smart requirements.md -o requirements.pdf
+> ```
+-->
+<p>Develop a system for helping the waiters manage the list of <em>reservations</em> in a <em>restaurant</em>, taking into account the number of clients and already occupied tables.</p>
+<p>All classes have to be in <code>it.polito.oop.tables</code> package. The <em>facade</em> class through which all the operations are performed is <code>Restaurant</code>.</p>
+<p>The class <code>TestApp</code> in the default package contains a synthetic test for the application.</p>
+<p>JDK documentation is accessible from the URL <a href="http://softeng.polito.it/courses/docs/api/index.html" class="uri">http://softeng.polito.it/courses/docs/api/index.html</a>.</p>
+<h2 id="r1-tables">R1: Tables</h2>
+<p>The restaurant consists of a series of tables of different dimensions that can be initialized using the method <code>defineTables(Integer...)</code> that accepts a series of numbers that represent the number of seats for each of the associated tables.</p>
+<p>The tables are identified by numbers starting from 1 following the order in which they were defined.</p>
+<p>It is possible to get the capacity of a table, given its number through method <code>tableSize(int)</code>. For a number of an inexistent (non-defined) table the method throws an exception <code>IllegalArgumentException</code>.</p>
+<p>Through method <code>getSeats()</code> it is possible to get the total capacity of a given restaurant (sum of all the seats for all the tables).</p>
+<p>The restaurant has the working hours (opening and closing time) that are accessible through setter and getter methods <code>getOpeningTime()</code>, <code>setOpeningTime()</code>, <code>getClosingTime()</code>, <code>setClosingTime()</code>. The times are represented as strings in the following format <code>hh:mm</code>, where <code>hh</code> represents hours, while <code>mm</code> stands for minutes. It can be assumed that the closing time is always before the midnight.</p>
+<h2 id="r2-clients">R2: Clients</h2>
+<p>The clients (or group of clients) are registered calling the method <code>newParty(String, int, String)</code> that receives as parameters client’s (or one of the group members) name (and/or surname), number of people in the group and the phone number. The method should return a unique code (<code>int</code>).</p>
+<p>Given this unique code, it is possible to obtain the name, the number of people in the group and the phone number through methods <code>getPartyName()</code>, <code>getPartySize</code> and <code>getPartyPhone</code>. In case of an inexistent code the method should throw an exception (<code>IllegalArgumentException</code>).</p>
+<p>Method <code>countParties()</code> returns the number of registered clients (groups).</p>
+<h2 id="r3-occupied-tables">R3: Occupied Tables</h2>
+<p>Tables can be occupied by clients during the restaurant’s working hours. To register that a client has taken a seat at the table, method <code>takeTable(int,int,String)</code> is called. It receives as parameters the number of the table, the client’s unique code and the time. The time is given as a String with the format <code>hh:mm</code>.</p>
+<p>Method <code>leaveTable(int,String)</code> is called when a client leaves the table. It receives as parameters the number of the table and the time (represented as above). The method returns client’s unique id.</p>
+<p>It is possible to estimate the time when the table will become available again using a simple formula: the time required to finish the meal is equal to 40 minutes plus 5 additional minutes for each member of the group that is seated at the corresponding table. The method <code>estimateAvailable(int)</code> receives as a parameter the table’s number and returns the estimated time in which the clients will leave the table.</p>
+<blockquote>
+<p>For example, if a group of three clients has occupied the table 1 at 19:50, the estimated time of their stay is equal to <code>55 (40 + 5 * 3)</code> minutes. Therefore, the time in which the table will become free is estimated to <code>&quot;20:45&quot;</code>.</p>
+</blockquote>
+<p>In case a table is free (unoccupied), the restaurant’s opening time is returned.</p>
+<h2 id="r4-clients-reservations">R4: Clients reservations</h2>
+<p>When a new client arrives, it is possible to know how much the client needs to wait before an adequate table becomes available.</p>
+<p>The method <code>estimateWaiting(int)</code> receives as parameters the number of people in the group and returns a list of options represented by objects that implement the <code>TableOption</code> interface.</p>
+<p>The interface offers methods such as <code>getTime()</code>, <code>getTable()</code>, and <code>getOccupation()</code> that return the time when the corresponding table will potentially become available, the number of the table and the occupation (calculated as a ratio between the number of people in the group and the number of seats at the table).</p>
+<p>The list contains only those table options for which the availability time is before the restaurant’s closing time and the occupation is lower than 100 percent (i.e., the tables that are definitely capable for accommodating all the clients in the group).</p>
+<p>The list is ordered first by decreasing occupation and then by the increasing availability time.</p>
+<p>It is possible to book one of the offered options (if any) through method <code>bookTable(int,int,String)</code> that accepts as parameters the table number, the client’s unique id (see requirement R2) and reservation time.</p>
+<p>In this way a list of reservations is defined for each of the tables in the restaurant. In case of existing reservations, methods <code>estimateAvailable(int)</code> and <code>estimateWaiting(int,String)</code> have to take into account not the currently present clients at that table but the last reservation that has been made for the same table.</p>
+<blockquote>
+<p>For example, if a group of 4 clients books the table 1 for 20:45, the method <code>estimateAvailable(int)</code> returns <code>&quot;21:45&quot;</code> based on the reservation and independently on the fact that currently there are people sitting at that table.</p>
+</blockquote>
+<h2 id="r5-statistics">R5: Statistics</h2>
+<p>The following methods are used to collect statistics:</p>
+<ul>
+<li><p><code>countServedCustomers()</code> returns the total number of people that ate in the restaurant (only the client groups that already left their table are considered).</p></li>
+<li><p><code>countServedParties()</code> returns the number of groups of clients that ate in the restaurant (only the client groups that already left their table are considered).</p></li>
+<li><p><code>tableTurnover()</code> returns a map with the table numbers as keys and the number of groups that ate at that table as values (only those groups that already left the table are considered).</p></li>
+<li><p><code>estimationError()</code> accepts the table number and returns median error of the table’s estimated time of availability. For each client (or group of clients) that left the table, the difference is calculated (in minutes) between the estimated time (see requirement R3) and the effective elapsed time between when the table became occupied and when it became available again (when the clients left). The method returns the median of these values.</p></li>
+</ul>
+</body>
+</html>

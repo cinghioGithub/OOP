@@ -1,0 +1,51 @@
+package ereditarieta;
+
+import java.util.Arrays;
+
+public class EsSort {
+	
+	static class Pippo {
+		int i;
+	}
+
+	public static void main(String[] args) {
+		
+		String[] as = { "z","d","k","r","a" };
+		
+		sort(as);
+		
+		for(String s : as) {
+			System.out.print(s+" ");
+		}
+		
+		Pippo[] arp = { new Pippo(), new Pippo(), new Pippo() };
+		//sort(arp);
+		sortAry(arp);
+		Arrays.sort(arp);
+
+	}
+
+	public static void sort(Comparable v[]) {
+		for (int i = 1; i < v.length; ++i)
+			for (int j = 0; j < v.length - i; ++j) {
+				if ( v[j].compareTo(v[j+1]) > 0) {
+					Comparable o = v[j];
+					v[j] = v[j + 1];
+					v[j + 1] = o;
+				}
+			}
+	}
+
+	public static void sortAry(Object v[]) {
+		for (int i = 1; i < v.length; ++i)
+			for (int j = 0; j < v.length - i; ++j) {
+				Comparable elemento = (Comparable) v[j];
+				if ( elemento.compareTo(v[j+1]) > 0) {
+					Object o = v[j];
+					v[j] = v[j + 1];
+					v[j + 1] = o;
+				}
+			}
+	}
+
+}

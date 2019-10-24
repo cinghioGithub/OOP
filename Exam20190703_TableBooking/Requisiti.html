@@ -1,0 +1,87 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta name="generator" content="pandoc" />
+  <title>Prenotazioni Tavoli</title>
+  <style type="text/css">code{white-space: pre;}</style>
+  <link rel="stylesheet" href=".css.css" type="text/css" />
+</head>
+<body>
+<div id="header">
+<h1 class="title">Prenotazioni Tavoli</h1>
+</div>
+<!--
+> To generate html and pdf use
+> ```bash
+> $ pandoc -s -f markdown+Smart requirements.md -c .css.css -o requirements.html
+> $ pandoc -s -f markdown+Smart requirements.md -o requirements.pdf
+> ```
+-->
+<p>Sviluppare una sistema che assista i camerieri a gestire la lista di prenotazioni per un ristorante, tenendo conto delle numerosità dei clienti e i tavoli impegnati..</p>
+<p>Tutte le classi devono essere nel package <code>it.polito.oop.tables</code>. La classe <em>facade</em> attraverso cui tutte le operazioni sono eseguite è <code>Restaurant</code>.</p>
+<p>La classe <code>TestApp</code> nel default package contiene una sintetico test per l’applicazione..</p>
+<p>La documentazione JDK è accessibile all’URL <a href="http://softeng.polito.it/courses/docs/api/index.html" class="uri">http://softeng.polito.it/courses/docs/api/index.html</a>.</p>
+<h2 id="r1-tavoli">R1: Tavoli</h2>
+<p>Il ristorante è composto da una serie di tavoli di diverse dimensioni che possono essere inizializzati tramite il metodo <code>defineTables(Integer...)</code> che accetta una serie numeri che rappresentano i posti dei diversi tavoli.</p>
+<p>Ai tavoli viene assegnata una numerazione che parte da 1 secondo l’ordine con cui sono stati definiti.</p>
+<p>È possibile conoscere la capienza di un tavolo dato il suo numero tramite il metodo <code>tableSize(int)</code>. A fronte di un numero di tavolo inesistente il metodo lancia un’eccezione (unchecked) di <code>IllegalArgumentException</code>.</p>
+<p>Dato un ristorante è possibile conoscere la capienza totale (somma del numero di posti di tutti i tavoli) tramite il metodo <code>getSeats()</code>.</p>
+<p>Il ristorante ha un orario di apertura ed uno di chiusura che sono accessibili tramite i metodi getter e setter: <code>getOpeningTime()</code>, <code>setOpeningTime()</code>, <code>getClosingTime()</code>, <code>setClosingTime()</code>. Gli orari sono rappresentati da stringhe col formato <code>&quot;hh:mm&quot;</code>, dove <code>hh</code> rappresenta le ore e <code>mm</code> i minuti. Si assuma che l’orario di chiusura sia entro la mezzanotte.</p>
+<h2 id="r2-clienti">R2: Clienti</h2>
+<p>I clienti (o gruppi di clienti) vengono registrati tramite il metodo <code>newParty(String, int, String)</code> che riceve come parametri il nome (e/o cognome) del cliente (o del cliente di riferimento per un gruppo), il numero di persone nel gruppo e il numero di telefono. Il metodo restituisce un codice univoco (<code>int</code>).</p>
+<p>È possibile conoscere, dato il codice univoco, nome, numero di persone e telefono tramite i metodi <code>getPartyName()</code>, <code>getPartySize()</code> e <code>getPartyPhone()</code>. A fronte di un codice inesistente il metodo lancia un’eccezione (unchecked) di <code>IllegalArgumentException</code>.</p>
+<p>Inoltre il metodo <code>countParties()</code> restituisce il numero di (gruppi di) clienti registrati.</p>
+<h2 id="r3-occupazione-tavoli.">R3: Occupazione Tavoli.</h2>
+<p>Durante le attività del ristorante i tavoli possono essere occupati dai clienti. Quando un cliente viene fatto accomodare ad un tavolo, l’occupazione viene segnalata tramite il metodo <code>takeTable(int,int,String)</code> che riceve come parametri il numero del tavolo, il codice univoco del cliente e l’orario. L’orario viene rappresentato con il formato <code>&quot;hh:mm&quot;</code>.</p>
+<p>Quando un tavolo viene lasciato dal cliente questo deve essere segnalato tramite il metodo <code>leaveTable(int,String)</code> che riceve come parametri il numero del tavolo e l’orario (rappresentato come sopra). Il metodo restituisce il codice univoco del cliente.</p>
+<p>È possibile ottenere un stima di quando un certo tavolo si libererà usando una semplice formula: il tempo stimato per completare il pasto è pari a 40 minuti più 5 minuti aggiuntivi per ogni membro del gruppo di clienti che siede al tavolo. Il metodo <code>estimateAvailable(int)</code> riceve come parametro il numero del tavolo e restituisce il tempo stimato in cui il tavolo sarà disponibile.</p>
+<blockquote>
+<p>Ad esempio se un gruppo di tre clienti si è seduto al tavolo 1 alle 19:50 il tempo stimato di occupazione è pari a 55 (40 + 5 * 3) minuti. Quindi l’orario in cui il tavolo si libererà è stimato alle ore 20:45</p>
+</blockquote>
+<p>Nel caso in cui il tavolo sia libero (nessun cliente ci siede) viene restituito l’orario di apertura.</p>
+<h2 id="r4-prenotazioni-clienti">R4: Prenotazioni clienti</h2>
+<p>Quando un nuovo cliente arriva al ristorante è possibile conoscere quanto tempo deve aspettare prima che si liberi un tavolo adatto.</p>
+<p>Il metodo <code>estimateWaiting(int)</code> riceve come parametro il numero di persone nel gruppo del cliente e restituisce una lista di alternative rappresentate da oggetti che implementano l’interfaccia <code>TableOption</code>.</p>
+<p>L’interfaccia offre i metodi getter <code>getTime()</code>, <code>getTable()</code>, e <code>getOccupation()</code> che restituiscono l’orario in cui il tavolo sarà presumibilmente libero, il numero del tavolo e l’occupazione (calcolata come rapporto tra il numero di persone nel gruppo e il numero di posti del tavolo).</p>
+<p>La lista contiene solo alternative che abbiano l’orario di disponibilità del tavolo anteriore all’orario di chiusura e che abbiano occupazione inferiore al 100% (cioè solo tavoli abbastanza capienti per ospitare tutti i clienti del gruppo).</p>
+<p>La lista è ordinata prima per occupazione decrescente e poi per orario crescente.</p>
+<p>È possibile prenotare una delle opzioni fornite (se presenti) tramite il metodo <code>bookTable(int, int, String)</code> che accetta come parametri il numero del tavolo, il codice univoco di un cliente (si veda il <a href="#r2-clienti">requisito R2</a>) e l’orario di prenotazione.</p>
+<p>In questo modo per ogni tavolo è definita una lista di prenotazioni. In presenza di prenotazioni, i metodi <code>estimateAvailable(int)</code> e <code>estimateWaiting(int, String)</code> devono tenere conto non dei clienti attualmente presenti al tavolo ma dell’ultima prenotazione effettuata per lo stesso tavolo.</p>
+<blockquote>
+<p>Ad esempio, se un gruppo di 4 clienti è prenotato al tavolo 1 per le 20:45, il metodo <code>estimateAvailable(int)</code> restituirà “21:45” in base alla prenotazione e indipendentemente dal fatto che al momento sono seduti altri clienti.</p>
+</blockquote>
+<h2 id="r5-statistiche">R5: Statistiche</h2>
+<p>Sono definiti i seguenti metodi per raccogliere statistiche:</p>
+<ul>
+<li><p><code>countServedCustomers()</code> restituisce il numero totale di persone che hanno mangiato presso il ristorante (si considerano tutti i gruppi di clienti che abbiano già lasciato il tavolo)</p></li>
+<li><p><code>countServedParties()</code> restituisce il numero di gruppi di clienti che hanno mangiato presso il ristorante (si considerano tutti i gruppi di clienti che abbiano già lasciato il tavolo).</p></li>
+<li><code>tableTurnover()</code> restituisce una mappa che riporta come chiavi i numeri dei tavoli e come valori il numero di gruppi di clienti che hanno cenato presso quel tavolo (si considerano tutti i gruppi di clienti che abbiano già lasciato il tavolo).</li>
+<li><p><code>estimationError()</code> accetta il numero di un tavolo e restituisce l’errore medio nella stima del tempo di disponibilità del tavolo. Per ogni cliente (o gruppo di -) che ha lasciato il tavolo, si calcola la differenza (in minuti) tra il tempo stimato (si veda il <a href="#r3-occupazione-tavoli">requisito R3</a>) e il tempo effettivo di rilascio del tavolo. Il metodo restituisce la media di tali valori.</p></li>
+</ul>
+<!--
+- `occupation()` accetta come parametro il numero di un tavolo e
+  restituisce il livello di occupazione, definito come: 
+  
+  $$\frac{\sum_i{ n_i \cdot t_i }}{T}$$
+  
+  dove:
+  
+  - $n_i$ è il numero di persone nel gruppo $i$-esimo di clienti,
+  - $t_i$ sono i minuti di occupazione da parte del gruppo,
+  - $T$ sono i minuti totali tra l'orario di apertura e quello di chiusura del ristorante.
+-->
+<!--
+## R5bis: Notifiche
+
+Quando un gruppo di clienti lascia un tavolo si vuole lanciare una notifica ai camerieri di richiamare il prossimo cliente prenotato per quel tavolo.
+
+Questo viene fatto tramite l'interfaccia `Notifier` che offre il metodo `nextParty(int, String, int, String)` che riceve come parametri: il numero del tavolo, il nome del cliente (o gruppo di -), il numero di persone e il numero di telefono.
+
+In fase di inizializzazione è possibile tramite il metodo `setNotifier(Notifier)` registrare un oggetto che implementi l'interfaccia `Notifier` e che riceverà le notifiche.
+
+Le notifiche vengono inviate all'interno del metodo `leaveTable()`.
+-->
+</body>
+</html>

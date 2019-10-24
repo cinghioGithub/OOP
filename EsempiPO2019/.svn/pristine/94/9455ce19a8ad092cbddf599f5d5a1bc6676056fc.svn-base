@@ -1,0 +1,17 @@
+package polibook;
+
+public class MessaggioSemplice extends Messaggio {
+
+	public MessaggioSemplice(String testo, 
+						int ts, 
+						Utente autore) {
+		super(testo,ts,autore);
+	}
+	
+	@Override
+	public String versioneStringa() {
+		return this.getTesto() + 
+				"\n[" + this.getTimestamp() + "]";
+	}
+
+}
